@@ -29,7 +29,7 @@ int main(int argc, char *argv[])
     QVBoxLayout *layout1 = new QVBoxLayout();
     layout1->setSpacing(1);
     QLabel *label1 = new QLabel("Leader");
-    QLabel *label2 = new QLabel("Member 1");
+    QLabel *label2 = new QLabel("Member 1 41243214 何維禧");
     QLabel *label3 = new QLabel("Member 2");
     QLabel *label4 = new QLabel("Member 3");
 
@@ -42,11 +42,26 @@ int main(int argc, char *argv[])
     // member 1
     QWidget *tab2 = new QWidget();
     QVBoxLayout *layout2 = new QVBoxLayout();
-    QLabel *member1Label = new QLabel("This is Member 1's tab");
-    QPushButton *member1Button = new QPushButton("Button 1");
-    layout2->addWidget(member1Label);
-    layout2->addWidget(member1Button);
+    QLabel *member1 = new QLabel("This is Member 1's tab");
+    QPushButton *btn1 = new QPushButton("Change Text Color");
+    layout2->addWidget(member1);
+    layout2->addWidget(btn1);
     tab2->setLayout(layout2);
+
+    QColorDialog *colorpicker = new QColorDialog;
+    QColor chosencolor;
+    QAbstractButton::connect(btn1,SIGNAL(clicked(bool)),colorpicker,SLOT(open()));
+
+    //asking GPT for help
+    QObject::connect(colorpicker, &QColorDialog::colorSelected, [&chosencolor,label1,label2,label3,label4](const QColor &color) {
+        chosencolor = color;  // Update chosencolor with the selected color
+        label1->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
+        label2->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
+        label3->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
+        label4->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
+    });
+    //problem solved
+
 
     // member 2
     QWidget *tab3 = new QWidget();
@@ -77,7 +92,7 @@ int main(int argc, char *argv[])
     mainLayout->addWidget(tabWidget);
     window->setLayout(mainLayout);
 
-    window->resize(300, 300);
+    window->resize(600, 300);
     window->show();
 
     return app.exec();
