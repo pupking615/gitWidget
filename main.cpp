@@ -28,7 +28,7 @@ int main(int argc, char *argv[])
     QWidget *tab1 = new QWidget();
     QVBoxLayout *layout1 = new QVBoxLayout();
     layout1->setSpacing(1);
-    QLabel *label1 = new QLabel("Leader   50915122 廖御証");
+    QLabel *label1 = new QLabel("Leader    50915122 廖御証");
     QLabel *label2 = new QLabel("Member 1 41243214 何維禧");
     QLabel *label3 = new QLabel("Member 2");
     QLabel *label4 = new QLabel("Member 3");
@@ -42,9 +42,9 @@ int main(int argc, char *argv[])
     // member 1
     QWidget *tab2 = new QWidget();
     QVBoxLayout *layout2 = new QVBoxLayout();
-    QLabel *member1 = new QLabel("This is Member 1's tab");
+
     QPushButton *btn1 = new QPushButton("Change Text Color");
-    layout2->addWidget(member1);
+
     layout2->addWidget(btn1);
     tab2->setLayout(layout2);
 
