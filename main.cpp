@@ -1,21 +1,13 @@
 #include <QApplication>
-#include <QColorDialog>
-#include <QFileDialog>
-#include <QFontDialog>
-#include <QHBoxLayout>
-#include <QLabel>
-#include <QPalette>
-#include <QPushButton>
-#include <QSlider>
-#include <QSpacerItem>
-#include <QSpinBox>
-#include <QTabWidget>
-#include <QTableWidget>
-#include <QVBoxLayout>
 #include <QWidget>
-
-
-//see changes go to https://github.com/50915122zheng/gitWidget/activity?ref=main
+#include <QTabWidget>
+#include <QVBoxLayout>
+#include <QLabel>
+#include <QPushButton>
+#include <QColorDialog>
+#include <QColor>
+#include <QFontDialog>
+#include <QFont>
 
 int main(int argc, char *argv[])
 {
@@ -26,13 +18,13 @@ int main(int argc, char *argv[])
 
     QTabWidget *tabWidget = new QTabWidget;
 
-    // leader
+    // Leader tab
     QWidget *tab1 = new QWidget();
     QVBoxLayout *layout1 = new QVBoxLayout();
     layout1->setSpacing(1);
     QLabel *label1 = new QLabel("Leader    50915122 廖御証");
     QLabel *label2 = new QLabel("Member 1 41243214 何維禧");
-    QLabel *label3 = new QLabel("Member 2");
+    QLabel *label3 = new QLabel("Member 2 41243252 蔡承叡");
     QLabel *label4 = new QLabel("Member 3");
 
     layout1->addWidget(label1);
@@ -41,7 +33,7 @@ int main(int argc, char *argv[])
     layout1->addWidget(label4);
     tab1->setLayout(layout1);
 
-    // member 1
+    // Member 1 tab
     QWidget *tab2 = new QWidget();
     QVBoxLayout *layout2 = new QVBoxLayout();
 
@@ -51,31 +43,39 @@ int main(int argc, char *argv[])
     tab2->setLayout(layout2);
 
     QColorDialog *colorpicker = new QColorDialog;
-    QColor chosencolor;
-    QAbstractButton::connect(btn1, SIGNAL(clicked(bool)), colorpicker, SLOT(open()));
+    QObject::connect(btn1, &QPushButton::clicked, [=]() {
+        colorpicker->open();
+    });
 
-    //asking GPT for help
-    QObject::connect(colorpicker,
-                     &QColorDialog::colorSelected,
-                     [&chosencolor, label1, label2, label3, label4](const QColor &color) {
-                         chosencolor = color; // Update chosencolor with the selected color
-                         label1->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
-                         label2->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
-                         label3->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
-                         label4->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
-                     });
-    //problem solved
+    QObject::connect(colorpicker, &QColorDialog::colorSelected, [=](const QColor &color) {
+        QString style = QString("color: %1;").arg(color.name());
+        label1->setStyleSheet(style);
+        label2->setStyleSheet(style);
+        label3->setStyleSheet(style);
+        label4->setStyleSheet(style);
+    });
 
-    // member 2
+    // Simplified Member 2 tab with only a button
     QWidget *tab3 = new QWidget();
     QVBoxLayout *layout3 = new QVBoxLayout();
-    QLabel *member2Label = new QLabel("This is Member 2's tab");
-    QPushButton *member2Button = new QPushButton("Button 2");
-    layout3->addWidget(member2Label);
+    QPushButton *member2Button = new QPushButton("Change Leader Text Style");
+
+    QObject::connect(member2Button, &QPushButton::clicked, [=]() {
+        // Use QFontDialog to change font style
+        bool ok;
+        QFont font = QFontDialog::getFont(&ok, window);
+        if (ok) {
+            label1->setFont(font);
+            label2->setFont(font);
+            label3->setFont(font);
+            label4->setFont(font);
+        }
+    });
+
     layout3->addWidget(member2Button);
     tab3->setLayout(layout3);
 
-    // member 3
+    // Member 3 tab
     QWidget *tab4 = new QWidget();
     QVBoxLayout *layout4 = new QVBoxLayout();
     QLabel *member3Label = new QLabel("This is Member 3's tab");
@@ -89,7 +89,7 @@ int main(int argc, char *argv[])
     tabWidget->addTab(tab3, "Member 2");
     tabWidget->addTab(tab4, "Member 3");
 
-    // 主窗口布局
+    // Main window layout
     QVBoxLayout *mainLayout = new QVBoxLayout();
     mainLayout->addWidget(tabWidget);
     window->setLayout(mainLayout);
