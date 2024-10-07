@@ -25,8 +25,8 @@ int main(int argc, char *argv[])
     layout1->setSpacing(1);
     QLabel *label1 = new QLabel("Leader    50915122 廖御証");
     QLabel *label2 = new QLabel("Member 1 41243214 何維禧");
-    QLabel *label3 = new QLabel("Member 2 41243252蔡承叡");
-    QLabel *label4 = new QLabel("Member 3");
+    QLabel *label3 = new QLabel("Member 2 41243252 蔡承叡");
+    QLabel *label4 = new QLabel("Member 3 41243120 林弘叡");
 
     layout1->addWidget(label1);
     layout1->addWidget(label2);
@@ -80,16 +80,19 @@ int main(int argc, char *argv[])
     QVBoxLayout *layout4 = new QVBoxLayout();
     QPushButton *member3Button = new QPushButton("Select File");
 
+    auto updateLabelsWithFilePath = [=](const QString &fileName) {
+        if (!fileName.isEmpty()) {
+            QString style = QString("%1").arg(fileName);
+            label1->setText(style);
+            label2->clear();
+            label3->clear();
+            label4->clear();
+        }
+    };
+
     QObject::connect(member3Button, &QPushButton::clicked, [=]() {
         QString fileName = QFileDialog::getOpenFileName(window, "Open a file", "", "All Files (*)");
-        if (!fileName.isEmpty()) {
-            // Update the labels on the Leader tab with the selected file path
-            QString style = QString("Selected file path: %1").arg(fileName);
-            label1->setText(style);
-            label2->setText(style);
-            label3->setText(style);
-            label4->setText(style);
-        }
+        updateLabelsWithFilePath(fileName);
     });
 
     layout4->addWidget(member3Button);
@@ -99,6 +102,7 @@ int main(int argc, char *argv[])
     tabWidget->addTab(tab2, "Member 1");
     tabWidget->addTab(tab3, "Member 2");
     tabWidget->addTab(tab4, "Member 3");
+
 
     // Main window layout
     QVBoxLayout *mainLayout = new QVBoxLayout();
