@@ -1,26 +1,28 @@
 #include <QApplication>
-#include <QWidget>
-#include <QSlider>
-#include <QSpinBox>
-#include <QHBoxLayout>
-#include <QSpacerItem>
-#include <QVBoxLayout>
-#include <QPushButton>
 #include <QColorDialog>
-#include <QTableWidget>
+#include <QFileDialog>
+#include <QFontDialog>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QPalette>
-#include <QFontDialog>
-#include <QFileDialog>
+#include <QPushButton>
+#include <QSlider>
+#include <QSpacerItem>
+#include <QSpinBox>
 #include <QTabWidget>
+#include <QTableWidget>
+#include <QVBoxLayout>
+#include <QWidget>
+
+
+//see changes go to https://github.com/50915122zheng/gitWidget/activity?ref=main
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
 
-    QWidget *window=new QWidget;
+    QWidget *window = new QWidget;
     window->setWindowTitle("Group7");
-
 
     QTabWidget *tabWidget = new QTabWidget;
 
@@ -50,18 +52,19 @@ int main(int argc, char *argv[])
 
     QColorDialog *colorpicker = new QColorDialog;
     QColor chosencolor;
-    QAbstractButton::connect(btn1,SIGNAL(clicked(bool)),colorpicker,SLOT(open()));
+    QAbstractButton::connect(btn1, SIGNAL(clicked(bool)), colorpicker, SLOT(open()));
 
     //asking GPT for help
-    QObject::connect(colorpicker, &QColorDialog::colorSelected, [&chosencolor,label1,label2,label3,label4](const QColor &color) {
-        chosencolor = color;  // Update chosencolor with the selected color
-        label1->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
-        label2->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
-        label3->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
-        label4->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
-    });
+    QObject::connect(colorpicker,
+                     &QColorDialog::colorSelected,
+                     [&chosencolor, label1, label2, label3, label4](const QColor &color) {
+                         chosencolor = color; // Update chosencolor with the selected color
+                         label1->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
+                         label2->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
+                         label3->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
+                         label4->setStyleSheet(QString("QLabel {color: %1;}").arg(color.name()));
+                     });
     //problem solved
-
 
     // member 2
     QWidget *tab3 = new QWidget();
@@ -80,7 +83,6 @@ int main(int argc, char *argv[])
     layout4->addWidget(member3Label);
     layout4->addWidget(member3Button);
     tab4->setLayout(layout4);
-
 
     tabWidget->addTab(tab1, "Leader");
     tabWidget->addTab(tab2, "Member 1");
